@@ -2,8 +2,9 @@
 import sys
 from cms.utils.compat.dj import python_2_unicode_compatible
 
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
+from cms.compat import User
 from django.utils.translation import ugettext_lazy as _
 
 from cms.models.managers import PageModeratorStateManager

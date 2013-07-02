@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import urllib
+from cms import compat
 from cms.constants import TEMPLATE_INHERITANCE_MAGIC
 from cms.exceptions import LanguageError
 from cms.models import Title
@@ -267,3 +269,77 @@ class PageToolbar(CMSToolbar):
         history_menu.add_ajax_item(_('Revert to live'), action=revert_action, question=revert_question,
                                    disabled=not self.page.is_dirty())
         history_menu.add_modal_item(_('View history'), url=reverse('admin:cms_page_history', args=(self.page.pk,)))
+            menu_items.items.append(Item(
+                reverse('admin:cms_page_undo', args=[page.pk]),
+                _('Undo'),
+                ajax=True,
+                ajax_data={'csrfmiddlewaretoken': unicode(csrf(self.request)['csrf_token'])},
+                disabled=not has_undo)
+            )
+
+            menu_items.items.append(Item(
+                reverse('admin:cms_page_redo', args=[page.pk]),
+                _('Redo'),
+                ajax=True,
+                ajax_data={'csrfmiddlewaretoken': unicode(csrf(self.request)['csrf_token'])},
+                disabled=not has_redo)
+            )
+            menu_items.items.append(Break())
+        menu_items.items.append(Item(
+            reverse('admin:cms_page_revert_page', args=[page.pk]),
+            _('Revert to live'), ajax=True,
+            ajax_data={'csrfmiddlewaretoken': unicode(csrf(self.request)['csrf_token'])},
+            question=_("Are you sure you want to revert to live?"),
+            disabled=not dirty)
+        )
+        menu_items.items.append(Item(
+            reverse('admin:cms_page_history', args=(self.page.pk,)),
+            _('View History'),
+            load_modal=True)
+        )
+        return menu_items
+
+    def get_publish_menu(self):
+        page = self.page
+        classes = "cms_btn-action cms_btn-publish"
+        if page.is_dirty():
+            classes += " cms_btn-publish-active"
+
+        button = Button(reverse('admin:cms_page_publish_page', args=[page.pk]), _("Publish Changes"),
+                        extra_classes=classes, ajax=True, right=True, disabled=not page.is_dirty(),
+                        active=page.is_dirty())
+        return button
+
+    def get_admin_menu(self):
+        """
+        Builds the 'admin menu' (the one with the cogwheel)
+        """
+        admin_items = List(reverse("admin:index"), _("Site"))
+        if self.can_change:
+            page_list = List(reverse("admin:cms_page_changelist"), _("Pages"), sub_level=True)
+            page_list.items.append(Item(reverse("admin:cms_page_changelist"), _('Manage pages'), load_side_frame=True))
+            page_list.items.append(Break())
+            page_list.items.append(Item(reverse("admin:cms_page_add"), _('Add new page'), load_side_frame=True))
+            admin_items.items.append(page_list)
+        if self.request.user.has_perm('user.change_user'):
+            if not compat.is_user_swapped:  # only add user menu if AUTH_USER_MODEL has not been swapped
+                admin_items.items.append(Item(reverse("admin:auth_user_changelist"), _('Users'), load_side_frame=True))
+        self.get_sites_menu(admin_items.items)
+        admin_items.items.append(Item(reverse('admin:index'), _('Administration'), load_side_frame=True))
+        admin_items.items.append(Break())
+        admin_items.items.append(
+            Item(reverse('admin:cms_usersettings_change'), _('User settings'), load_side_frame=True))
+        admin_items.items.append(Break())
+        admin_items.items.append(Item(reverse("admin:logout"), _('Logout'), ajax=True,
+                                      ajax_data={'csrfmiddlewaretoken': unicode(csrf(self.request)['csrf_token'])},
+                                      active=True))
+        return admin_items
+
+    def get_mode_switchers(self):
+        switch = ButtonList(right=True)
+        switch.addItem(_("Content"), "?edit", self.toolbar.build_mode)
+        switch.addItem(_("Structure"), "?build", not self.toolbar.build_mode)
+        return switch
+
+
+toolbar_pool.register(PageToolbar)
