@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from django.contrib.auth import get_user_model
 from cms.test_utils.cli import configure
 from cms.test_utils.tmpdir import temp_dir
 import argparse
@@ -24,7 +25,7 @@ def main():
                 from django.core.management import call_command
                 call_command('syncdb', interactive=False, migrate_all=new_db)
                 call_command('migrate', interactive=False, fake=new_db)
-                from django.contrib.auth.models import User
+                User = get_user_model()
                 if not User.objects.filter(is_superuser=True).exists():
                     usr = User()
                     usr.username = 'admin'

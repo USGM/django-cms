@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import with_statement
+from django.contrib.auth import get_user_model
 
 from cms.tests.menu_page_viewperm import ViewPermissionTests
 
-from django.contrib.auth.models import  User
-
+User = get_user_model()
 
 class ViewPermissionComplexMenuStaffNodeTests(ViewPermissionTests):
     """

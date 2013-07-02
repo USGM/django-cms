@@ -7,12 +7,12 @@ You must implement the necessary permission checks in your own code before
 calling these methods!
 """
 import datetime
+from django.contrib.auth import get_user_model
 from cms.utils.conf import get_cms_setting
 from django.core.exceptions import PermissionDenied
 from cms.utils.i18n import get_language_list
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.db.models import Max
 from django.template.defaultfilters import slugify
@@ -32,6 +32,7 @@ from cms.plugin_pool import plugin_pool
 from cms.utils import moderator
 from cms.utils.permissions import _thread_locals
 
+User = get_user_model()
 
 #===============================================================================
 # Constants 
