@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import with_statement
+from django.contrib.auth import get_user_model
 
 from django.contrib.sites.models import Site
-from django.contrib.auth.models import AnonymousUser, User, Group
+from django.contrib.auth.models import AnonymousUser, Group
 
 from cms.api import create_page
 from cms.menu import get_visible_pages
@@ -13,6 +14,7 @@ from cms.models.permissionmodels import GlobalPagePermission, PagePermission
 from cms.test_utils.testcases import SettingsOverrideTestCase
 from menus.menu_pool import menu_pool
 
+User = get_user_model()
 
 class ViewPermissionTests(SettingsOverrideTestCase):
     """

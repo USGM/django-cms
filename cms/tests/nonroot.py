@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import with_statement
+from django.contrib.auth import get_user_model
 from cms.api import create_page
 from cms.models import Page
 from cms.test_utils.testcases import CMSTestCase
 from cms.test_utils.util.context_managers import SettingsOverride
 from cms.utils.i18n import force_language
-from django.contrib.auth.models import User
 from django.middleware.locale import LocaleMiddleware
 from django.template import Template
 from menus.base import NavigationNode
 from django.http import HttpResponse
 from cms.templatetags.cms_admin import preview_link
 
+User = get_user_model()
 
 class NonRootCase(CMSTestCase):
     urls = 'cms.test_utils.project.nonroot_urls'

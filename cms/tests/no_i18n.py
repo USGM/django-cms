@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from cms.plugins.text.models import Text
-from django.contrib.auth.models import User
 from cms.models import Page, CMSPlugin
 from django.core.urlresolvers import clear_url_caches
 from cms.test_utils.util.context_managers import SettingsOverride
@@ -8,6 +7,7 @@ from django.template import Template
 from cms.api import create_page
 from cms.test_utils.testcases import SettingsOverrideTestCase, URL_CMS_PAGE_ADD, URL_CMS_PLUGIN_EDIT, URL_CMS_PLUGIN_ADD
 
+User = get_user_model()
 
 class TestNoI18N(SettingsOverrideTestCase):
     settings_overrides = {

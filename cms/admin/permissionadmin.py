@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from wiki.core.compat import get_user_model
 from cms.admin.forms import (GlobalPagePermissionAdminForm, 
     PagePermissionInlineAdminForm, ViewRestrictionInlineAdminForm)
 from cms.exceptions import NoPermissionsException
@@ -8,10 +9,10 @@ from cms.utils.helpers import classproperty
 from cms.utils.permissions import get_user_permission_level
 from copy import deepcopy
 from django.contrib import admin
-from django.contrib.auth.models import User
 from django.template.defaultfilters import title
 from django.utils.translation import ugettext as _
 
+User = get_user_model()
 
 PAGE_ADMIN_INLINES = []
 

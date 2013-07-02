@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import with_statement
 import datetime
+from django.contrib.auth import get_user_model
 
 from cms.api import create_page, publish_page, add_plugin
 from cms.exceptions import PluginAlreadyRegistered, PluginNotRegistered
@@ -29,7 +30,6 @@ from cms.utils.copy_plugins import copy_plugins_to
 from django.utils import timezone
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
@@ -37,6 +37,7 @@ from django.forms.widgets import Media
 from django.test.testcases import TestCase
 import os
 
+User = get_user_model()
 
 class DumbFixturePlugin(CMSPluginBase):
     model = CMSPlugin

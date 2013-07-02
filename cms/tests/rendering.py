@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import with_statement
+from django.contrib.auth import get_user_model
 from cms import plugin_rendering
 from cms.api import create_page, add_plugin
 from cms.models.placeholdermodel import Placeholder
@@ -9,10 +10,11 @@ from cms.plugin_rendering import (render_plugins, PluginContext,
 from cms.test_utils.testcases import SettingsOverrideTestCase
 from cms.test_utils.util.context_managers import SettingsOverride, ChangeModel
 from cms.test_utils.util.mock import AttributeObject
-from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect
 from django.template import Template, RequestContext
 from sekizai.context import SekizaiContext
+
+User = get_user_model()
 
 TEMPLATE_NAME = 'tests/rendering/base.html'
 

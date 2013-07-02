@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
+from django.contrib.auth import get_user_model
 from django.core.management.base import NoArgsCommand, CommandError
 
 class Command(NoArgsCommand):
@@ -9,7 +10,7 @@ class Command(NoArgsCommand):
         self.publish_pages()
         
     def publish_pages(self):
-        from django.contrib.auth.models import User
+        User = get_user_model()
         from cms.models import Page
         from cms.utils.permissions import set_current_user
         

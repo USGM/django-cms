@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import sys
+from django.contrib.auth import get_user_model
 
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 from cms.models.managers import PageModeratorStateManager
 from cms.models.pagemodel import Page
 
+User = get_user_model()
 
 ################################################################################
 # Moderation

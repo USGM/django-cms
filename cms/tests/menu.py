@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import with_statement
 import copy
+from django.contrib.auth import get_user_model
 from django.db import connection
 from cms.api import create_page
 from cms.menu import CMSMenu, get_visible_pages
@@ -15,7 +16,7 @@ from cms.test_utils.util.mock import AttributeObject
 from cms.utils import get_cms_setting
 from cms.utils.i18n import force_language
 from django.conf import settings
-from django.contrib.auth.models import AnonymousUser, User, Permission, Group
+from django.contrib.auth.models import AnonymousUser, Permission, Group
 from django.contrib.sites.models import Site
 from django.template import Template, TemplateSyntaxError
 from django.utils.translation import activate
@@ -25,7 +26,7 @@ from menus.models import CacheKey
 from menus.utils import mark_descendants, find_selected, cut_levels
 from django.utils.unittest.case import skipUnless
 
-
+User = get_user_model()
 
 class BaseMenuTest(SettingsOverrideTestCase):
 

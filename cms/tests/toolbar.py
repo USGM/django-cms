@@ -1,4 +1,5 @@
 from __future__ import with_statement
+from django.contrib.auth import get_user_model
 from cms.api import create_page
 from cms.cms_toolbar import CMSToolbar
 from cms.test_utils.testcases import SettingsOverrideTestCase
@@ -7,9 +8,11 @@ from cms.toolbar.items import (Anchor, TemplateHTML, Switcher, List, ListItem,
     GetButton)
 from cms.utils import get_cms_setting
 from django.conf import settings
-from django.contrib.auth.models import AnonymousUser, User, Permission
+from django.contrib.auth.models import AnonymousUser, Permission
 from django.core.urlresolvers import reverse
 from django.test.client import RequestFactory
+
+User = get_user_model()
 
 class ToolbarTestBase(SettingsOverrideTestCase):
 
