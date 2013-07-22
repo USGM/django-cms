@@ -1068,7 +1068,7 @@ class PageAdmin(ModelAdmin):
                         user_id=request.user.id,
                         content_type_id=ContentType.objects.get_for_model(Page).pk,
                         object_id=page_id,
-                        object_repr=page.get_title(),
+                        object_repr=page.get_title() or '',
                         action_flag=CHANGE,
                     )
                 except RuntimeError, e:
