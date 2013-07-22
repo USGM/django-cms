@@ -2,7 +2,13 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from django.contrib.auth.models import User, Group
+try:
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+except ImportError:
+    from django.contrib.auth.models import User
+
+from django.contrib.auth.models import Group
 from django.contrib.sites.models import Site
 
 from cms.models import Page
