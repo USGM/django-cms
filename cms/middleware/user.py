@@ -10,6 +10,7 @@ class CurrentUserMiddleware(object):
         from cms.utils.permissions import set_current_user
         try:
             user = request.user
+            user.is_authenticated()
         except AttributeError:
             user = None
         set_current_user(user)
