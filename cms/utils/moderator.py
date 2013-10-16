@@ -15,7 +15,8 @@ def page_changed(page, old_page=None, force_moderation_action=None):
     from cms.utils.permissions import get_current_user
     user = get_current_user()
     # Force evaluation.
-    user.is_authenticated()
+    if user:
+        pass
 
     if force_moderation_action:
         PageModeratorState(user_id=user.id, page=page, action=force_moderation_action).save()
