@@ -14,18 +14,17 @@ def page_changed(page, old_page=None, force_moderation_action=None):
     # get user from thread locals
     from cms.utils.permissions import get_current_user
     user = get_current_user()
-    # Force evaluation.
-    if user:
-        pass
 
     if force_moderation_action:
-        PageModeratorState(user_id=user.id, page=page, action=force_moderation_action).save()
+        if user:
+            PageModeratorState(user_id=user.id, page=page, action=force_moderation_action).save()
         page.save() # sets the page to dirty
         return
 
     if not old_page:
         # just newly created page
-        PageModeratorState(user_id=user.id, page=page, action=PageModeratorState.ACTION_ADD).save()
+        if user:
+            PageModeratorState(user_id=user.id, page=page, action=PageModeratorState.ACTION_ADD).save()
 
 
 def update_moderation_message(page, message):
